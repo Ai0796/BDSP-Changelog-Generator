@@ -1,0 +1,1 @@
+##This only generates a changelog for trainer pokemon
