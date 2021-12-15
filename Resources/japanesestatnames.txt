@@ -1,0 +1,6 @@
+Hp
+Atk
+Def
+SpAtk
+SpDef
+Agi

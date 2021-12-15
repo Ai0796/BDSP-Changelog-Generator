@@ -8,6 +8,11 @@ pokemonNamePath = "Resources/pokemon.txt"
 pokmoneNaturePath = "Resources/natures.txt"
 pokemonMovePath = "Resources/moves.txt"
 pokemonIDPath = "Resources/pokemonid.txt"
+trainerNamePath = "Resources/trainername.txt"
+pokemonGenderPath = "Resources/gender.txt"
+pokemonItemPath = "Resources/items.txt"
+japanesStatPath = "Resources/japanesestatnames.txt"
+statPath = "Resources/showdownstatnames.txt"
 
 def splitFile(src):
     if path.isfile(src):
@@ -17,29 +22,44 @@ def splitFile(src):
     else:
         input("Error "f"{src} does not exist")
         sys.exit()
-        
-abilityList = splitFile(pokemonAbilitiesPath)
-typeList = splitFile(pokemonTypePath)
-nameList = splitFile(pokemonNamePath)
-natureList = splitFile(pokmoneNaturePath)
-moveList = splitFile(pokemonMovePath)
-pokemonIDs = splitFile(pokemonIDPath)
+
+class searchLists():
+    abilityList = splitFile(pokemonAbilitiesPath)
+    typeList = splitFile(pokemonTypePath)
+    nameList = splitFile(pokemonNamePath)
+    natureList = splitFile(pokmoneNaturePath)
+    moveList = splitFile(pokemonMovePath)
+    pokemonIDs = splitFile(pokemonIDPath)
+    trainerName = splitFile(trainerNamePath)
+    genderList = splitFile(pokemonGenderPath)
+    itemList = splitFile(pokemonItemPath)
+    japaneseStatList = splitFile(japanesStatPath)
+    showdownStatList = splitFile(statPath)
 
 
 def getAbility(abilityIndex):
-    return abilityList[abilityIndex]
+    return searchLists.abilityList[abilityIndex]
 
 def getType(typeIndex):
-    return typeList[typeIndex]
+    return searchLists.typeList[typeIndex]
 
 def getName(nameIndex):
-    return nameList[nameIndex]
+    return searchLists.nameList[nameIndex]
 
 def getNature(natureIndex):
-    return natureList[natureIndex]
+    return searchLists.natureList[natureIndex]
 
 def getMove(moveIndex):
-    return moveList[moveIndex]
+    return searchLists.moveList[moveIndex]
 
 def getNamefromForm(formIndex):
-    return nameList[int(pokemonIDs[formIndex])]
+    return searchLists.nameList[int(searchLists.pokemonIDs[formIndex])]
+
+def getTrainerName(nameIndex):
+    return searchLists.trainerName[nameIndex]
+
+def getGender(genderIndex):
+    return searchLists.genderList[genderIndex]
+
+def getItem(itemIndex):
+    return searchLists.itemList[itemIndex]
