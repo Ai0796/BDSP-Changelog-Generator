@@ -100,14 +100,11 @@ if __name__ == '__main__':
             unchanged = True ##Used to add pokemon name if there are changes
             for j in iterateList:
                 if pokemonOriginal[j] != pokemonEdited[j]:
-                    if unchanged:
-                        changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: \n")
-                        unchanged = False
-                        break
+                    changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: \n")
+                    unchanged = False
+                    break
                         
             if not unchanged: ##If there are changes with any of the functions
-                oldPokemonList = []
-                newPokemonList = []
                 
                 ##Iterate through the 3 abilities
                 for i in abilityList:
@@ -123,4 +120,10 @@ if __name__ == '__main__':
                 newtype2 = pokemonEdited[type2]
                 
                 changelogWrite.write(compareType(oldtype1, oldtype2, newtype1, newtype2))
+                changelogWrite.write("\n")
+                
+            else:
+                
+                changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: \n")
+                changelogWrite.write("Unchanged\n")
                 changelogWrite.write("\n")

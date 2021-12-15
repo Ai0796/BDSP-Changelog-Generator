@@ -1,12 +1,13 @@
 from posixpath import split
 import sys
-from os import path
+from os import name, path
 
 pokemonAbilitiesPath = "Resources/abilities.txt"
 pokemonTypePath = "Resources/types.txt"
 pokemonNamePath = "Resources/pokemon.txt"
 pokmoneNaturePath = "Resources/natures.txt"
 pokemonMovePath = "Resources/moves.txt"
+pokemonIDPath = "Resources/pokemonid.txt"
 
 def splitFile(src):
     if path.isfile(src):
@@ -22,6 +23,8 @@ typeList = splitFile(pokemonTypePath)
 nameList = splitFile(pokemonNamePath)
 natureList = splitFile(pokmoneNaturePath)
 moveList = splitFile(pokemonMovePath)
+pokemonIDs = splitFile(pokemonIDPath)
+
 
 def getAbility(abilityIndex):
     return abilityList[abilityIndex]
@@ -37,3 +40,6 @@ def getNature(natureIndex):
 
 def getMove(moveIndex):
     return moveList[moveIndex]
+
+def getNamefromForm(formIndex):
+    return nameList[int(pokemonIDs[formIndex])]

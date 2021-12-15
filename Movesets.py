@@ -17,34 +17,11 @@ pathIDList = [PersonalTablePathID]
 
 compareList = ["WazaOboe"]
 
-ability1 = "tokusei1"
-ability2 = "tokusei2"
-hiddenAbility = "tokusei3"
-type1 = "type1"
-type2 = "type2"
+moveset = "ar"
 
-abilityList = [ability1, ability2, hiddenAbility] 
-iterateList = [ability1, ability2, hiddenAbility, type1, type2]
+iterateList = [moveset]
 
-idKey = 'monsno' ##Used to get pokemon id, as it's named differently in different files
-       
-def formatAbility(abilityNum, abilityFlag): ##Change variable name, ability is to see if it's hidden or not
-    ability = getAbility(abilityNum)
-    abilityType = ""
-    if abilityFlag == 3:
-        abilityType = "Hidden Ability: "
-    else:
-        abilityType = "Normal Ability: "
-    formattedAbility = abilityType + ability
-    return formattedAbility
-
-def formatType(primaryType, secondaryType):
-    if primaryType == secondaryType: ##Monotype Pokemon
-        type = getType(primaryType)
-        return type
-    else: ##Dual Type
-        type = getType(primaryType) + " / " + getType(secondaryType)
-        return type
+idKey = 'id' ##Used to get pokemon id, as it's named differently in different files
     
 def exists(src):
     return path.exists(src)
@@ -59,21 +36,15 @@ def getUnityTrees(unityfile, pathIDs = pathIDList):
     
     return treeList
 
-def compareAbility(oldAbility, newAbility, abilityFlag):
-    if oldAbility == newAbility:
-        return ""
-    else:
-        return formatAbility(oldAbility, abilityFlag) + " -> " + getAbility(newAbility) + "\n"
-    
-def compareType(oldtype1, oldtype2, newtype1, newtype2):
-    type1Diff = oldtype1 != newtype1
-    type2Diff = oldtype2 != newtype2
-    
-    if type1Diff or type2Diff:
-        return "Type: " + formatType(oldtype1, oldtype2) + " -> " + formatType(newtype1, newtype2) + "\n"
-    else:
-        return ""
-
+def splitList(list):
+    list1 = []
+    list2 = []
+    for i in range(len(list)):
+        if i%2 == 0:
+            list1.append(list[i])
+        else:
+            list2.append(list[i])
+    return list1, list2
 
 if __name__ == '__main__':
     
@@ -99,27 +70,44 @@ if __name__ == '__main__':
             unchanged = True ##Used to add pokemon name if there are changes
             for j in iterateList:
                 if pokemonOriginal[j] != pokemonEdited[j]:
-                    if unchanged:
-                        changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: \n")
-                        unchanged = False
-                        break
+                    changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: \n")
+                    unchanged = False
+                    break
                         
             if not unchanged: ##If there are changes with any of the functions
-                oldPokemonList = []
-                newPokemonList = []
                 
-                ##Iterate through the 3 abilities
-                for i in abilityList:
-                    originalAbility = pokemonOriginal[i]
-                    newAbility = pokemonEdited[i]
-                    abilityFlag = int(i[-1])
-                    changelogWrite.write(compareAbility(originalAbility, newAbility, abilityFlag))
+                oldMoveset = pokemonOriginal[moveset]
+                newMoveset = pokemonEdited[moveset]
+                
+                oldLevels, oldMoves = splitList(oldMoveset)
+                newLevels, newMoves = splitList(newMoveset)
+                
+                oldMovesetlist = []
+
+                if len(oldMoveset) > 1:
+                    for level, move in zip(oldLevels, oldMoves):
+                        oldMovesetlist.append([level, move])
                     
-                ##Compare the two types
-                oldtype1 = pokemonOriginal[type1]
-                oldtype2 = pokemonOriginal[type2]
-                newtype1 = pokemonEdited[type1]
-                newtype2 = pokemonEdited[type2]
+                if len(newMoveset) > 1:
+                    changelogWrite.write("Added: \n")
+                    for level, move in zip(newLevels, newMoves):
+                        if [level, move] in oldMovesetlist:
+                            oldMovesetlist.remove([level, move]) ##If unchanged then doesn't matter
+                        else:
+                            changelogWrite.write(f"{level}: "f"{getMove(move)}\n")
+                        
+                changelogWrite.write("\n")
+                changelogWrite.write("Removed: \n")
+
+                for moves in oldMovesetlist:
+                    level = moves[0]
+                    move = moves[1]
+                    changelogWrite.write(f"{level}: "f"{getMove(move)}\n")
                 
-                changelogWrite.write(compareType(oldtype1, oldtype2, newtype1, newtype2))
+                changelogWrite.write("\n")
+                
+            else:
+                
+                changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: \n")
+                changelogWrite.write("Unchanged\n")
                 changelogWrite.write("\n")
