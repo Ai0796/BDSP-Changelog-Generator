@@ -31,7 +31,6 @@ def getUnityTrees(unityfile, pathIDs = pathIDList):
     
     return treeList
 
-
 if __name__ == '__main__':
     
     changelogWrite = open(changelogPath, "wt", encoding="utf8")
@@ -57,7 +56,7 @@ if __name__ == '__main__':
             
             
             if trainerOriginal != trainerEdited:
-                changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])}: \n")
+                changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
                 unchanged = False
             else:
                 unchanged = True ##Used to add pokemon name if there are changes
@@ -68,11 +67,11 @@ if __name__ == '__main__':
                 
                 changelogWrite.write("OLD: \n")
                 changelogWrite.write(originalTrainerClass.getShowdown())
-                changelogWrite.write("NEW: ")
+                changelogWrite.write("NEW: \n")
                 changelogWrite.write(editedTrainerClass.getShowdown())
                 
             else:
                 
-                changelogWrite.write(f"{getName(trainerOriginal[idKey])}: \n")
+                changelogWrite.write(f"{getName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
                 changelogWrite.write("Unchanged\n")
                 changelogWrite.write("\n")

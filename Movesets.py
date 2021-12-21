@@ -70,7 +70,7 @@ if __name__ == '__main__':
             unchanged = True ##Used to add pokemon name if there are changes
             for j in iterateList:
                 if pokemonOriginal[j] != pokemonEdited[j]:
-                    changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: \n")
+                    changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])} "f"ID{pokemonOriginal[idKey]}: \n")
                     unchanged = False
                     break
                         
@@ -94,7 +94,7 @@ if __name__ == '__main__':
                         if [level, move] in oldMovesetlist:
                             oldMovesetlist.remove([level, move]) ##If unchanged then doesn't matter
                         else:
-                            changelogWrite.write(f"{level}: "f"{getMove(move)}\n")
+                            changelogWrite.write("{}: {}\n".format(level, getMove(move)))
                         
                 changelogWrite.write("\n")
                 changelogWrite.write("Removed: \n")
@@ -102,12 +102,12 @@ if __name__ == '__main__':
                 for moves in oldMovesetlist:
                     level = moves[0]
                     move = moves[1]
-                    changelogWrite.write(f"{level}: "f"{getMove(move)}\n")
+                    changelogWrite.write("{}: {}\n".format(level, getMove(move)))
                 
                 changelogWrite.write("\n")
                 
             else:
                 
-                changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: \n")
+                changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])} "f"ID{pokemonOriginal[idKey]}: \n")
                 changelogWrite.write("Unchanged\n")
                 changelogWrite.write("\n")
