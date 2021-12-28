@@ -81,46 +81,31 @@ if __name__ == '__main__':
             pokemonOriginal = personalTableOriginal[i]
             pokemonEdited = personalTableEdited[i]
             
-            unchanged = True ##Used to add pokemon name if there are changes
-            for j in iterateList:
-                if pokemonOriginal[j] != pokemonEdited[j]:
-                    changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
-                    unchanged = False
-                    break
-                        
-            if not unchanged: ##If there are changes with any of the functions
                 
-                oldTMStr = ""
-                newTMStr = ""
+            oldTMStr = ""
+            newTMStr = ""
 
-                ##Iterate through the 4 machines
-                for i in range(4):
-                    key = TMList[i]
-                    byteSize = byteLengths[i]
-                    oldTM = pokemonOriginal[key]
-                    newTM = pokemonEdited[key]
-                    oldTMStr += getBitString(oldTM, byteSize)
-                    newTMStr += getBitString(newTM, byteSize)
-                    
-                newLearns = []
-                newRemoves = []
-                    
-                for i in range(len(oldTMStr)):
-                    
-                    oldTM = oldTMStr[i]
-                    newTM = newTMStr[i]                    
-                    
-                    if oldTM == "1":
-                        newLearns.append(i + 1)
-                            
-                for num in newLearns:
-                    changelogWrite.write(formatTM(num, True))
-                    changelogWrite.write("\n")
-                  
-                changelogWrite.write("\n")  
+            ##Iterate through the 4 machines
+            for i in range(4):
+                key = TMList[i]
+                byteSize = byteLengths[i]
+                oldTM = pokemonOriginal[key]
+                newTM = pokemonEdited[key]
+                oldTMStr += getBitString(oldTM, byteSize)
+                newTMStr += getBitString(newTM, byteSize)
                 
-            else:
+            newLearns = []
                 
-                changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
-                changelogWrite.write("Unchanged\n")
+            for i in range(len(oldTMStr)):
+                
+                oldTM = oldTMStr[i]
+                newTM = newTMStr[i]                    
+                
+                if oldTM == "1":
+                    newLearns.append(i + 1)
+                        
+            for num in newLearns:
+                changelogWrite.write(formatTM(num, True))
                 changelogWrite.write("\n")
+                
+            changelogWrite.write("\n")  
