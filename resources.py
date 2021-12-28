@@ -13,6 +13,7 @@ pokemonGenderPath = "Resources/gender.txt"
 pokemonItemPath = "Resources/items.txt"
 japanesStatPath = "Resources/japanesestatnames.txt"
 statPath = "Resources/showdownstatnames.txt"
+TMMoveIDsPath = "Resources/TMMoveIDs.txt"
 
 def splitFile(src):
     if path.isfile(src):
@@ -35,6 +36,7 @@ class searchLists():
     itemList = splitFile(pokemonItemPath)
     japaneseStatList = splitFile(japanesStatPath)
     showdownStatList = splitFile(statPath)
+    TMMoveIDList = splitFile(TMMoveIDsPath)
 
 
 def getAbility(abilityIndex):
@@ -63,3 +65,9 @@ def getGender(genderIndex):
 
 def getItem(itemIndex):
     return searchLists.itemList[itemIndex]
+
+def getTMMoveID(TMIndex):
+    return searchLists.TMMoveIDList[TMIndex]
+
+def getTMName(TMIndex):
+    return getMove(int(searchLists.TMMoveIDList[TMIndex]))

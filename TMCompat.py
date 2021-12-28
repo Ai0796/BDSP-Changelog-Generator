@@ -10,42 +10,34 @@ from resources import *
 
 originalPath = "Original/personal_masterdatas"
 editedPath = "Edited/personal_masterdatas"
-changelogPath = "Changelogs/Pokemon Changelog.txt"
+changelogPath = "Changelogs/TMs Learned Changelog.txt"
 
 PersonalTablePathID = 6925071152922426992
 
 pathIDList = [PersonalTablePathID]
 
 compareList = ["Personal"]
+     
+machine1 = "machine1"
+machine2 = "machine2"
+machine3 = "machine3"
+machine4 = "machine4"
 
-ability1 = "tokusei1"
-ability2 = "tokusei2"
-hiddenAbility = "tokusei3"
-type1 = "type1"
-type2 = "type2"
-
-abilityList = [ability1, ability2, hiddenAbility] 
-iterateList = [ability1, ability2, hiddenAbility, type1, type2]
+TMList = [machine1, machine2, machine3, machine4] 
+iterateList = [machine1, machine2, machine3, machine4] 
+byteLengths = [32, 32, 32, 4] ##TMs are three 32 bit ints and one 4 bit int
 
 idKey = 'monsno' ##Used to get pokemon id, as it's named differently in different files
        
-def formatAbility(abilityNum, abilityFlag): ##Change variable name, ability is to see if it's hidden or not
-    ability = getAbility(abilityNum)
-    abilityType = ""
-    if abilityFlag == 3:
-        abilityType = "Hidden Ability: "
+def formatTM(TMNum, learns):
+    name = getTMName(TMNum)
+    TM = ""
+    if learns:
+        TM = "Learns TM{}: ".format(TMNum)
     else:
-        abilityType = "Normal Ability: "
-    formattedAbility = abilityType + ability
-    return formattedAbility
-
-def formatType(primaryType, secondaryType):
-    if primaryType == secondaryType: ##Monotype Pokemon
-        type = getType(primaryType)
-        return type
-    else: ##Dual Type
-        type = getType(primaryType) + " / " + getType(secondaryType)
-        return type
+        TM = "Doesn't Learn TM{}: ".format(TMNum)
+    formattedTM = TM + name
+    return formattedTM
     
 def exists(src):
     return path.exists(src)
@@ -60,20 +52,12 @@ def getUnityTrees(unityfile, pathIDs = pathIDList):
     
     return treeList
 
-def compareAbility(oldAbility, newAbility, abilityFlag):
-    if oldAbility == newAbility:
-        return ""
-    else:
-        return formatAbility(oldAbility, abilityFlag) + " -> " + getAbility(newAbility) + "\n"
+def compareTM(oldTM, newTM):
+    return oldTM != newTM
     
-def compareType(oldtype1, oldtype2, newtype1, newtype2):
-    type1Diff = oldtype1 != newtype1
-    type2Diff = oldtype2 != newtype2
-    
-    if type1Diff or type2Diff:
-        return "Type: " + formatType(oldtype1, oldtype2) + " -> " + formatType(newtype1, newtype2) + "\n"
-    else:
-        return ""
+def getBitString(num, length):
+    binaryNum = format(num, "b")
+    return binaryNum.zfill(length)[::-1]
 
 
 if __name__ == '__main__':
@@ -106,22 +90,43 @@ if __name__ == '__main__':
                         
             if not unchanged: ##If there are changes with any of the functions
                 
-                ##Iterate through the 3 abilities
-                for i in abilityList:
-                    originalAbility = pokemonOriginal[i]
-                    newAbility = pokemonEdited[i]
-                    abilityFlag = int(i[-1])
-                    changelogWrite.write(compareAbility(originalAbility, newAbility, abilityFlag))
+                oldTMStr = ""
+                newTMStr = ""
+
+                ##Iterate through the 4 machines
+                for i in range(4):
+                    key = TMList[i]
+                    byteSize = byteLengths[i]
+                    oldTM = pokemonOriginal[key]
+                    newTM = pokemonEdited[key]
+                    oldTMStr += getBitString(oldTM, byteSize)
+                    newTMStr += getBitString(newTM, byteSize)
                     
-                ##Compare the two types
-                oldtype1 = pokemonOriginal[type1]
-                oldtype2 = pokemonOriginal[type2]
-                newtype1 = pokemonEdited[type1]
-                newtype2 = pokemonEdited[type2]
+                newLearns = []
+                newRemoves = []
+                    
+                for i in range(len(oldTMStr)):
+                    
+                    oldTM = oldTMStr[i]
+                    newTM = newTMStr[i]                    
+                    
+                    if compareTM(oldTM, newTM):
+                        if newTM == "1":
+                            newLearns.append(i + 1)
+                        else:
+                            newRemoves.append(i + 1)
+                            
+                for num in newLearns:
+                    changelogWrite.write(formatTM(num, True))
+                    changelogWrite.write("\n")
+                  
+                changelogWrite.write("\n")  
                 
-                changelogWrite.write(compareType(oldtype1, oldtype2, newtype1, newtype2))
+                for num in newRemoves:
+                    changelogWrite.write(formatTM(num, False))
+                    changelogWrite.write("\n")
+                    
                 changelogWrite.write("\n")
-                
                 
             else:
                 

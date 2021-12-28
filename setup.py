@@ -12,4 +12,4 @@ setup(
         name = "Showdown Import BDSP",
         version = "1.0",
         description = "Unpacks and Repacks in for Unity monobehavior jsons",
-        executables = [Executable("Trainers.py"), Executable("Movesets.py"), Executable("Pokemon.py")])
+        executables = [Executable("Trainers.py"), Executable("Movesets.py"), Executable("Pokemon.py"), Executable("TMCompat.py"), Executable("TMLearned.py")])
