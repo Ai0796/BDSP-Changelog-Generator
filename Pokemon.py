@@ -35,7 +35,7 @@ def formatAbility(abilityNum, abilityFlag): ##Change variable name, ability is t
     if abilityFlag == 3:
         abilityType = "Hidden Ability: "
     else:
-        abilityType = "Normal Ability: "
+        abilityType = "Normal Ability {}: ".format(abilityFlag)
     formattedAbility = abilityType + ability
     return formattedAbility
 
@@ -62,7 +62,7 @@ def getUnityTrees(unityfile, pathIDs = pathIDList):
 
 def compareAbility(oldAbility, newAbility, abilityFlag):
     if oldAbility == newAbility:
-        return ""
+        return formatAbility(oldAbility, abilityFlag) + "\n"
     else:
         return formatAbility(oldAbility, abilityFlag) + " -> " + getAbility(newAbility) + "\n"
     

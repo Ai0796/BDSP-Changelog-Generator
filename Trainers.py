@@ -65,13 +65,13 @@ if __name__ == '__main__':
                 originalTrainerClass = showdown.Trainer(trainerOriginal)
                 editedTrainerClass = showdown.Trainer(trainerEdited)
                 
-                changelogWrite.write("OLD: \n")
-                changelogWrite.write(originalTrainerClass.getShowdown())
+                # changelogWrite.write("OLD: \n")
+                # changelogWrite.write(originalTrainerClass.getShowdown())
                 changelogWrite.write("NEW: \n")
                 changelogWrite.write(editedTrainerClass.getShowdown())
                 
             else:
                 
-                changelogWrite.write(f"{getName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
+                changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
                 changelogWrite.write("Unchanged\n")
                 changelogWrite.write("\n")

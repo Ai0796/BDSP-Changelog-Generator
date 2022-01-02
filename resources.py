@@ -14,6 +14,8 @@ pokemonItemPath = "Resources/items.txt"
 japanesStatPath = "Resources/japanesestatnames.txt"
 statPath = "Resources/showdownstatnames.txt"
 TMMoveIDsPath = "Resources/TMMoveIDs.txt"
+pokemonFormPath = "Resources//pokemonForms.txt"
+
 
 def splitFile(src):
     if path.isfile(src):
@@ -23,6 +25,17 @@ def splitFile(src):
     else:
         input("Error "f"{src} does not exist")
         sys.exit()
+        
+def getFormDic(formPath):
+    formDic = {}
+    with open(formPath, "r", encoding = "utf8") as f:
+        for line in f.read().splitlines():
+            lineSplit = line.split(",")
+            monsno = int(lineSplit[0])
+            formno = int(lineSplit[1])
+            pokeName = lineSplit[2]
+            formDic[(monsno, formno)] = pokeName
+    return formDic
 
 class searchLists():
     abilityList = splitFile(pokemonAbilitiesPath)
@@ -37,6 +50,7 @@ class searchLists():
     japaneseStatList = splitFile(japanesStatPath)
     showdownStatList = splitFile(statPath)
     TMMoveIDList = splitFile(TMMoveIDsPath)
+    formDic = getFormDic(pokemonFormPath)
 
 
 def getAbility(abilityIndex):
@@ -45,8 +59,17 @@ def getAbility(abilityIndex):
 def getType(typeIndex):
     return searchLists.typeList[typeIndex]
 
-def getName(nameIndex):
-    return searchLists.nameList[nameIndex]
+def getName(nameIndex, formIndex):
+    
+    if formIndex > 0:
+        try:
+            name = searchLists.formDic[(nameIndex, formIndex)]
+        except:
+            return searchLists.nameList[nameIndex] + " Form Error"
+    else:
+        name = searchLists.nameList[nameIndex]
+        
+    return name
 
 def getNature(natureIndex):
     return searchLists.natureList[natureIndex]

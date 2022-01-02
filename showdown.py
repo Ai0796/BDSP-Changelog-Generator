@@ -96,7 +96,7 @@ class Pokemon:
             self.EVDic[showdownStat] = pokemon[f"{self.EVbaseKey}{japaneseStat}"]
         
     def getPokeName(self):
-        return getName(self.monsno)
+        return getName(self.monsno, self.formno)
     
     def getShiny(self):
         return self.shiny == 1

@@ -83,26 +83,31 @@ if __name__ == '__main__':
                 newLevels, newMoves = splitList(newMoveset)
                 
                 oldMovesetlist = []
+                oldMovesetPrint = []
 
                 if len(oldMoveset) > 1:
                     for level, move in zip(oldLevels, oldMoves):
-                        oldMovesetlist.append([level, move])
+                        oldMovesetlist.append(move)
+                        oldMovesetPrint.append([level, move])
                     
                 if len(newMoveset) > 1:
-                    changelogWrite.write("Added: \n")
+                    changelogWrite.write("New: \n")
                     for level, move in zip(newLevels, newMoves):
-                        if [level, move] in oldMovesetlist:
-                            oldMovesetlist.remove([level, move]) ##If unchanged then doesn't matter
-                        else:
+                        if move in oldMovesetlist:
+                            delIndex = oldMovesetlist.index(move) ##If unchanged then doesn't matter
+                            oldMovesetlist.pop(delIndex)
+                            oldMovesetPrint.pop(delIndex)
                             changelogWrite.write("{}: {}\n".format(level, getMove(move)))
+                        else:
+                            changelogWrite.write("{}: {} [+]\n".format(level, getMove(move)))
                         
                 changelogWrite.write("\n")
                 changelogWrite.write("Removed: \n")
 
-                for moves in oldMovesetlist:
+                for moves in oldMovesetPrint:
                     level = moves[0]
                     move = moves[1]
-                    changelogWrite.write("{}: {}\n".format(level, getMove(move)))
+                    changelogWrite.write("{}: {} [-]\n".format(level, getMove(move)))
                 
                 changelogWrite.write("\n")
                 
