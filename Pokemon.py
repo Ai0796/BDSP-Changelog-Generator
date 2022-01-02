@@ -100,7 +100,7 @@ if __name__ == '__main__':
             unchanged = True ##Used to add pokemon name if there are changes
             for j in iterateList:
                 if pokemonOriginal[j] != pokemonEdited[j]:
-                    changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
+                    changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
                     unchanged = False
                     break
                         
@@ -125,6 +125,6 @@ if __name__ == '__main__':
                 
             else:
                 
-                changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
+                changelogWrite.write(f"{getName(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
                 changelogWrite.write("Unchanged\n")
                 changelogWrite.write("\n")

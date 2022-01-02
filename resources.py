@@ -59,7 +59,7 @@ def getAbility(abilityIndex):
 def getType(typeIndex):
     return searchLists.typeList[typeIndex]
 
-def getName(nameIndex, formIndex):
+def getName(nameIndex, formIndex = 0):
     
     if formIndex > 0:
         try:
