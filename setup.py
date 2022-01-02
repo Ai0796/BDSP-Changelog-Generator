@@ -11,5 +11,6 @@ build_exe_options = {"excludes": ["tkinter", "PyQt4.QtSql", "sqlite3",
 setup(
         name = "BDSP Changelogger",
         version = "1.0",
-        description = "Unpacks and Repacks in for Unity monobehavior jsons",
+        options = {"build_exe": build_exe_options},
+        description = "Creates changelogs for different values from masterdatas and personal_masterdatas",
         executables = [Executable("Trainers.py"), Executable("Movesets.py"), Executable("Pokemon.py"), Executable("TMCompat.py"), Executable("TMLearned.py")])
