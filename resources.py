@@ -72,10 +72,10 @@ devModePath = "devMode.txt"
 try:
     with open(devModePath) as f:
         data = rapidjson.load(f)
-        devMode = data["devMode"]
+        devMode = data["showUnchanged"]
         
 except:
-    devModePath = 0
+    devMode = 0
 
 def getAbility(abilityIndex):
     return searchLists.abilityList[abilityIndex]

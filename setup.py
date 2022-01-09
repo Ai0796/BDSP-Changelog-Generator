@@ -6,6 +6,7 @@ build_exe_options = {"excludes": ["tkinter", "PyQt4.QtSql", "sqlite3",
                                   "PyQt4.QtScript",
                                   "numpy.core._dotblas", 
                                   "PyQt5", "numpy"],
+                     "include_files": ["devMode.txt", "Resources"],
                      "optimize": 2}
 
 setup(
