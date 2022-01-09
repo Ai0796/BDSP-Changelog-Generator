@@ -67,10 +67,10 @@ class searchLists():
     formDic = getFormDic(pokemonFormPath)
 
 
-devModePath = "devMode.txt"
+settingsPath = "devMode.txt"
 
 try:
-    with open(devModePath) as f:
+    with open(settingsPath) as f:
         data = rapidjson.load(f)
         devMode = data["showUnchanged"]
         
