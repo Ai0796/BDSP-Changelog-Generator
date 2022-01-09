@@ -1,6 +1,7 @@
 from posixpath import split
 import sys
 from os import name, path
+import rapidjson
 
 pokemonAbilitiesPath = "Resources/abilities.txt"
 pokemonTypePath = "Resources/types.txt"
@@ -25,6 +26,19 @@ def splitFile(src):
     else:
         input("Error "f"{src} does not exist")
         sys.exit()
+
+def getFormList(src):
+    if path.isfile(src):
+        with open(src, "r", encoding="utf8") as f:
+            fileList = []
+            fileString = f.read()
+            for line in fileString.splitlines():
+                fileList.append(line.split(","))
+
+            return fileList
+    else:
+        input("Error "f"{src} does not exist")
+        sys.exit()
         
 def getFormDic(formPath):
     formDic = {}
@@ -43,7 +57,7 @@ class searchLists():
     nameList = splitFile(pokemonNamePath)
     natureList = splitFile(pokmoneNaturePath)
     moveList = splitFile(pokemonMovePath)
-    pokemonIDs = splitFile(pokemonIDPath)
+    pokemonIDs = getFormList(pokemonIDPath)
     trainerName = splitFile(trainerNamePath)
     genderList = splitFile(pokemonGenderPath)
     itemList = splitFile(pokemonItemPath)
@@ -52,6 +66,16 @@ class searchLists():
     TMMoveIDList = splitFile(TMMoveIDsPath)
     formDic = getFormDic(pokemonFormPath)
 
+
+devModePath = "devMode.txt"
+
+try:
+    with open(devModePath) as f:
+        data = rapidjson.load(f)
+        devMode = data["devMode"]
+        
+except:
+    devModePath = 0
 
 def getAbility(abilityIndex):
     return searchLists.abilityList[abilityIndex]
@@ -78,7 +102,9 @@ def getMove(moveIndex):
     return searchLists.moveList[moveIndex]
 
 def getNamefromForm(formIndex):
-    return searchLists.nameList[int(searchLists.pokemonIDs[formIndex])]
+    monsno = int(searchLists.pokemonIDs[formIndex][0])
+    formno = int(searchLists.pokemonIDs[formIndex][1])
+    return getName(monsno, formIndex = formno)
 
 def getTrainerName(nameIndex):
     return searchLists.trainerName[nameIndex]

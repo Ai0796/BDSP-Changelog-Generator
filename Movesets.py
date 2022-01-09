@@ -113,6 +113,8 @@ if __name__ == '__main__':
                 
             else:
                 
-                changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])} "f"ID{pokemonOriginal[idKey]}: \n")
-                changelogWrite.write("Unchanged\n")
-                changelogWrite.write("\n")
+                if devMode:
+                    
+                    changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])} "f"ID{pokemonOriginal[idKey]}: \n")
+                    changelogWrite.write("Unchanged\n")
+                    changelogWrite.write("\n")

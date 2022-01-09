@@ -72,6 +72,8 @@ if __name__ == '__main__':
                 
             else:
                 
-                changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
-                changelogWrite.write("Unchanged\n")
-                changelogWrite.write("\n")
+                if devMode:
+                    
+                    changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
+                    changelogWrite.write("Unchanged\n")
+                    changelogWrite.write("\n")
