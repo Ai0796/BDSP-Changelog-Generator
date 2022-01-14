@@ -5,7 +5,7 @@ build_exe_options = {"excludes": ["tkinter", "PyQt4.QtSql", "sqlite3",
                                   "PyQt4.QtNetwork",
                                   "PyQt4.QtScript",
                                   "numpy.core._dotblas", 
-                                  "PyQt5", "numpy"],
+                                  "PyQt5", "numpy", "matplotlib", "scipy"],
                      "include_files": ["settings.txt", "Resources"],
                      "optimize": 2}
 
@@ -14,4 +14,4 @@ setup(
         version = "1.0",
         options = {"build_exe": build_exe_options},
         description = "Creates changelogs for different values from masterdatas and personal_masterdatas",
-        executables = [Executable("Trainers.py"), Executable("Movesets.py"), Executable("Pokemon.py"), Executable("TMCompat.py"), Executable("TMLearned.py")])
+        executables = [Executable("main.py")])

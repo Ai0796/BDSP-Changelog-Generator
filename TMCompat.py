@@ -60,7 +60,7 @@ def getBitString(num, length):
     return binaryNum.zfill(length)[::-1]
 
 
-if __name__ == '__main__':
+def main():
     
     changelogWrite = open(changelogPath, "wt", encoding="utf8")
     
@@ -137,3 +137,8 @@ if __name__ == '__main__':
                     changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
                     changelogWrite.write("Unchanged\n")
                     changelogWrite.write("\n")
+                    
+
+if __name__ == '__main__':
+    
+    main()

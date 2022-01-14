@@ -30,9 +30,8 @@ def getUnityTrees(unityfile, pathIDs = pathIDList):
             treeList.append(obj.read_typetree())
     
     return treeList
-
-if __name__ == '__main__':
     
+def main():
     changelogWrite = open(changelogPath, "wt", encoding="utf8")
     
     original = UnityPy.load(originalPath)
@@ -77,3 +76,8 @@ if __name__ == '__main__':
                     changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
                     changelogWrite.write("Unchanged\n")
                     changelogWrite.write("\n")
+                    
+
+if __name__ == '__main__':
+    
+    main()
