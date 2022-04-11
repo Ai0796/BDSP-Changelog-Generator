@@ -123,7 +123,7 @@ def main():
                         changelogWrite.write(f"{fullName} ID{trainerEdited[idKey]}\n")
                     
                     else:
-                        changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
+                        changelogWrite.write(f"{getTrainerName(trainerEdited[idKey])} "f"ID{trainerEdited[idKey]}: \n")
                     
                     editedTrainerClass = showdown.Trainer(trainerEdited)
                     
@@ -140,7 +140,7 @@ def main():
                         fullName = getTrainerNameFromTypes(name, type)
                         changelogWrite.write(f"{fullName} ID{trainerEdited[idKey]}\n")
                     else:
-                        changelogWrite.write(f"{getTrainerName(trainerOriginal[idKey])} "f"ID{trainerOriginal[idKey]}: \n")
+                        changelogWrite.write(f"{getTrainerName(trainerEdited[idKey])} "f"ID{trainerEdited[idKey]}: \n")
                     changelogWrite.write("Unchanged\n")
                     changelogWrite.write("\n")
             

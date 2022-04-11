@@ -118,8 +118,6 @@ def main():
 
 def getData():
 
-    changelogWrite = open(changelogPath, "wt", encoding="utf8")
-
     original = UnityPy.load(originalPath)
     edited = UnityPy.load(editedPath)
 
