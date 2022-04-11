@@ -73,7 +73,7 @@ def compareType(oldtype1, oldtype2, newtype1, newtype2):
     if type1Diff or type2Diff:
         return "Type: " + formatType(oldtype1, oldtype2) + " -> " + formatType(newtype1, newtype2) + "\n"
     else:
-        return ""
+        return "Type: " + formatType(oldtype1, oldtype2)
 
 
 def main():
@@ -93,7 +93,7 @@ def main():
         
         minLength = min(len(personalTableEdited), len(personalTableOriginal))
         
-        for i in range(minLength):
+        for i in range(1, minLength):
             pokemonOriginal = personalTableOriginal[i]
             pokemonEdited = personalTableEdited[i]
             
@@ -130,6 +130,47 @@ def main():
                     changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
                     changelogWrite.write("Unchanged\n")
                     changelogWrite.write("\n")
+                    
+
+def getData():
+
+    changelogWrite = open(changelogPath, "wt", encoding="utf8")
+
+    original = UnityPy.load(originalPath)
+    edited = UnityPy.load(editedPath)
+
+    originalTrees = getUnityTrees(original)[0]
+    editedTrees = getUnityTrees(edited)[0]
+
+    for compareKey in compareList:
+        personalTableOriginal = originalTrees[compareKey]
+        personalTableEdited = editedTrees[compareKey]
+
+        minLength = min(len(personalTableEdited), len(personalTableOriginal))
+
+        for i in range(1, minLength):
+            pokemonOriginal = personalTableOriginal[i]
+            pokemonEdited = personalTableEdited[i]
+            
+            returnString = ""
+
+            ##Iterate through the 3 abilities
+            for i in abilityList:
+                originalAbility = pokemonOriginal[i]
+                newAbility = pokemonEdited[i]
+                abilityFlag = int(i[-1])
+                returnString += compareAbility(originalAbility, newAbility, abilityFlag)
+
+            ##Compare the two types
+            oldtype1 = pokemonOriginal[type1]
+            oldtype2 = pokemonOriginal[type2]
+            newtype1 = pokemonEdited[type1]
+            newtype2 = pokemonEdited[type2]
+
+            returnString += compareType(oldtype1, oldtype2, newtype1, newtype2)
+            returnString += "\n"
+
+            yield returnString
                     
 
 if __name__ == '__main__':

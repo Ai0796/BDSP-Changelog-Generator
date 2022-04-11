@@ -46,6 +46,9 @@ def splitList(list):
             list2.append(list[i])
     return list1, list2
 
+def getGarchompDance(monsno, movenum):
+    return monsno == "Garchomp" and movenum == "Quiver Dance"
+
 def main():
     
     changelogWrite = open(changelogPath, "wt", encoding="utf8")
@@ -91,7 +94,7 @@ def main():
                         oldMovesetPrint.append([level, move])
                     
                 if len(newMoveset) > 1:
-                    changelogWrite.write("New: \n")
+                    changelogWrite.write("\n")
                     for level, move in zip(newLevels, newMoves):
                         if move in oldMovesetlist:
                             delIndex = oldMovesetlist.index(move) ##If unchanged then doesn't matter
@@ -118,6 +121,78 @@ def main():
                     changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])} "f"ID{pokemonOriginal[idKey]}: \n")
                     changelogWrite.write("Unchanged\n")
                     changelogWrite.write("\n")
+                    
+def getData():
+
+    original = UnityPy.load(originalPath)
+    edited = UnityPy.load(editedPath)
+
+    originalTrees = getUnityTrees(original)[0]
+    editedTrees = getUnityTrees(edited)[0]
+
+    for compareKey in compareList:
+        personalTableOriginal = originalTrees[compareKey]
+        personalTableEdited = editedTrees[compareKey]
+
+        minLength = min(len(personalTableEdited), len(personalTableOriginal))
+
+        for i in range(minLength):
+            pokemonOriginal = personalTableOriginal[i]
+            pokemonEdited = personalTableEdited[i]
+            
+            returnString = ""
+
+            unchanged = True  # Used to add pokemon name if there are changes
+            for j in iterateList:
+                if pokemonOriginal[j] != pokemonEdited[j]:
+                    unchanged = False
+                    break
+
+            if not unchanged:  # If there are changes with any of the functions
+
+                oldMoveset = pokemonOriginal[moveset]
+                newMoveset = pokemonEdited[moveset]
+
+                oldLevels, oldMoves = splitList(oldMoveset)
+                newLevels, newMoves = splitList(newMoveset)
+
+                oldMovesetlist = []
+                oldMovesetPrint = []
+
+                if len(oldMoveset) > 1:
+                    for level, move in zip(oldLevels, oldMoves):
+                        oldMovesetlist.append(move)
+                        oldMovesetPrint.append([level, move])
+
+                if len(newMoveset) > 1:
+                    # returnString += "New: \n"
+                    for level, move in zip(newLevels, newMoves):
+                        if move in oldMovesetlist:
+                            # If unchanged then doesn't matter
+                            delIndex = oldMovesetlist.index(move)
+                            oldMovesetlist.pop(delIndex)
+                            oldMovesetPrint.pop(delIndex)
+                            returnString += "{}: {}\n".format(level, getMove(move))
+                        else:
+                            returnString += "{}: {} [+]\n".format(level, getMove(move))
+
+                # changelogWrite.write("\n")
+                # changelogWrite.write("Removed: \n")
+
+                for moves in oldMovesetPrint:
+                    level = moves[0]
+                    move = moves[1]
+                    returnString += "{}: {} [-]\n".format(level, getMove(move))
+
+                # returnString += "\n"
+                yield returnString
+
+            else:
+
+                if devMode:
+
+                    returnString += "Movesets Unchanged\n"
+                    # returnString += "\n"
                     
 
 if __name__ == '__main__':

@@ -1,14 +1,19 @@
-import Movesets
-import Pokemon
-import TMCompat
-import TMLearned
-import Trainers
+import ChangelogGenerators.Movesets
+import ChangelogGenerators.Pokemon
+import ChangelogGenerators.TMCompat
+import ChangelogGenerators.TMLearned
+import ChangelogGenerators.Trainers
+import ChangelogGenerators.Summary
+import ChangelogGenerators.Egg
 
 
 if __name__ == '__main__':
     
-    Movesets.main()
-    Pokemon.main()
-    TMCompat.main()
-    TMLearned.main()
-    Trainers.main()
+    ChangelogGenerators.Movesets.main()
+    ChangelogGenerators.Pokemon.main()
+    ChangelogGenerators.TMCompat.main()
+    ChangelogGenerators.TMLearned.main()
+    ChangelogGenerators.Trainers.main()
+    ChangelogGenerators.Egg.main()
+    ChangelogGenerators.Summary.main()
+    

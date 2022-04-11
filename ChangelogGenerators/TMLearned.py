@@ -104,11 +104,75 @@ def main():
                 if oldTM == "1":
                     newLearns.append(i + 1)
                         
+            # changelogWrite.write(pokemonOriginal)
+            
+            # print(pokemonOriginal)
+            changelogWrite.write(f"{getNamefromForm(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
+            
             for num in newLearns:
                 changelogWrite.write(formatTM(num, True))
                 changelogWrite.write("\n")
                 
             changelogWrite.write("\n")  
+            
+
+def getData():
+
+    changelogWrite = open(changelogPath, "wt", encoding="utf8")
+
+    original = UnityPy.load(originalPath)
+    edited = UnityPy.load(editedPath)
+
+    originalTrees = getUnityTrees(original)[0]
+    editedTrees = getUnityTrees(edited)[0]
+
+    for compareKey in compareList:
+        personalTableOriginal = originalTrees[compareKey]
+        personalTableEdited = editedTrees[compareKey]
+
+        minLength = min(len(personalTableEdited), len(personalTableOriginal))
+
+        for i in range(1, minLength):
+            returnString = ""
+            
+            pokemonOriginal = personalTableOriginal[i]
+            pokemonEdited = personalTableEdited[i]
+
+            oldTMStr = ""
+            newTMStr = ""
+
+            ##Iterate through the 4 machines
+            for i in range(4):
+                key = TMList[i]
+                byteSize = byteLengths[i]
+                oldTM = pokemonOriginal[key]
+                newTM = pokemonEdited[key]
+                oldTMStr += getBitString(oldTM, byteSize)
+                newTMStr += getBitString(newTM, byteSize)
+
+            newLearns = []
+
+            for i in range(len(oldTMStr)):
+
+                oldTM = oldTMStr[i]
+                newTM = newTMStr[i]
+
+                if oldTM == "1":
+                    newLearns.append(i + 1)
+
+            # changelogWrite.write(pokemonOriginal)
+
+            # print(pokemonOriginal)
+            # changelogWrite.write(
+            #     f"{getNamefromForm(pokemonOriginal[idKey])}: "f"ID{pokemonOriginal[idKey]}: \n")
+
+            for num in newLearns:
+                returnString += formatTM(num, True)
+                returnString += "\n"
+
+            # returnString += "\n"
+            
+            yield returnString
             
 
 if __name__ == '__main__':

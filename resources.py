@@ -1,4 +1,5 @@
 from posixpath import split
+import UnityPy
 import sys
 from os import name, path
 import rapidjson
@@ -16,6 +17,8 @@ japanesStatPath = "Resources/japanesestatnames.txt"
 statPath = "Resources/showdownstatnames.txt"
 TMMoveIDsPath = "Resources/TMMoveIDs.txt"
 pokemonFormPath = "Resources//pokemonForms.txt"
+eggGroups = "Resources//Egg Groups.txt"
+pokeEggGroups = "Resources//PokeEggGroups.txt"
 
 
 def splitFile(src):
@@ -51,7 +54,21 @@ def getFormDic(formPath):
             formDic[(monsno, formno)] = pokeName
     return formDic
 
-class searchLists():
+def getFormIDDic(formPath):
+    formDic = {}
+    idNum = 0
+    with open(formPath, "r", encoding="utf8") as f:
+        for line in f.read().splitlines():
+            lineSplit = line.split(",")
+            monsno = int(lineSplit[0])
+            formno = int(lineSplit[1])
+            pokeName = idNum
+            idNum += 1
+            formDic[(monsno, formno)] = pokeName
+    return formDic
+
+class SearchLists():
+    
     abilityList = splitFile(pokemonAbilitiesPath)
     typeList = splitFile(pokemonTypePath)
     nameList = splitFile(pokemonNamePath)
@@ -65,7 +82,53 @@ class searchLists():
     showdownStatList = splitFile(statPath)
     TMMoveIDList = splitFile(TMMoveIDsPath)
     formDic = getFormDic(pokemonFormPath)
+    eggList = splitFile(eggGroups)
+    eggGroups = splitFile(pokeEggGroups)
+    formIDDic = getFormIDDic(pokemonIDPath)
+    
+    generatedTrainerList = False
+    
+    def __init__(self):
+        
+        ##Generate Trainer Names
+        if path.exists("English/english"):
+            self.generatedTrainerList = True
+            
+            trainerTypePathID = -4346316312608422852
+            trainerNamePathID = 8216495090772535120
+            
+            self.TrainerTypeDic = {}
+            self.TrainerNameDic = {}
+            
+            env = UnityPy.load("English/english")
+            
+            for obj in env.objects:
+                if obj.path_id == trainerTypePathID:
+                    tree = obj.read_typetree()
+                    
+                    for data in tree["labelDataArray"]:
+                        name = data["labelName"]
+                        type = data["wordDataArray"][0]["str"]
+                        
+                        self.TrainerTypeDic[name] = type
+                        
+            # print(typeDic)
+            
+            for obj in env.objects:
+                if obj.path_id == trainerNamePathID:
+                    tree = obj.read_typetree()
+                    
+                    for data in tree["labelDataArray"]:
 
+                        label = data["labelName"]
+                        if len(data["wordDataArray"]) > 0:
+                            name = data["wordDataArray"][0]["str"]
+
+                            self.TrainerNameDic[label] = name
+                        
+            
+
+searchLists = SearchLists()
 
 settingsPath = "devMode.txt"
 
@@ -106,8 +169,17 @@ def getNamefromForm(formIndex):
     formno = int(searchLists.pokemonIDs[formIndex][1])
     return getName(monsno, formIndex = formno)
 
+def getIDfromForm(monsno, formIndex):
+    return searchLists.formIDDic[(monsno, formIndex)]
+
 def getTrainerName(nameIndex):
     return searchLists.trainerName[nameIndex]
+
+def getTrainerNameFromTypes(nameLabel, typeLabel):
+    return searchLists.TrainerTypeDic[typeLabel] + " " + searchLists.TrainerNameDic[nameLabel]
+
+def getIfGeneratedTrainers():
+    return searchLists.generatedTrainerList
 
 def getGender(genderIndex):
     return searchLists.genderList[genderIndex]
@@ -120,3 +192,13 @@ def getTMMoveID(TMIndex):
 
 def getTMName(TMIndex):
     return getMove(int(searchLists.TMMoveIDList[TMIndex]))
+
+def getEggGroup(eggGroupNum):
+    return searchLists.eggList[eggGroupNum]
+
+def getEggGroupfromid(idNum):
+    returnList = searchLists.eggGroups[idNum].split(",")
+
+    for i in range(len(returnList)):
+        returnList[i] = int(returnList[i])
+    return returnList
