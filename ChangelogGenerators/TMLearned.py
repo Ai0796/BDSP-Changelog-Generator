@@ -30,7 +30,7 @@ byteLengths = [32, 32, 32, 4] ##TMs are three 32 bit ints and one 4 bit int
 idKey = 'monsno' ##Used to get pokemon id, as it's named differently in different files
        
 def formatTM(TMNum, learns):
-    name = getTMName(TMNum)
+    name = getTMName(TMNum - 1) ##TMs start at 1, index starts at 0
     TM = ""
     if learns:
         TM = "TM{}: ".format(TMNum)

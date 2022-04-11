@@ -125,9 +125,24 @@ class SearchLists():
                             name = data["wordDataArray"][0]["str"]
 
                             self.TrainerNameDic[label] = name
-                        
-            
+                            
+        if path.exists("Edited/personal_masterdatas"):
 
+            src = "Edited/personal_masterdatas"
+
+            env = UnityPy.load(src)
+
+            itemTablePathID = 252928009371549925
+            self.TMMoveIDList = []
+
+            for obj in env.objects:
+                if obj.path_id == itemTablePathID:
+                    tree = obj.read_typetree()
+                    if tree['m_Name'] == "ItemTable":
+                        ##Selects 100 unique moves
+                        for TM in tree["WazaMachine"]:
+                            self.TMMoveIDList.append(str(TM["wazaNo"]))
+        
 searchLists = SearchLists()
 
 settingsPath = "devMode.txt"
