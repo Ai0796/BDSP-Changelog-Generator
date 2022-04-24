@@ -105,10 +105,10 @@ def main():
         if len(trainerTableEdited) > len(trainerTableOriginal):
             for i in range(len(trainerTableEdited)):
                 
-                
                 trainerEdited = trainerTableEdited[i]
                 trainerData = trainerDataEdited[i]
                 
+                ##Removes Volkner
                 if trainerData["TypeID"] == 83 and i > 707:
                     continue
                          
@@ -120,14 +120,14 @@ def main():
                         type = typeList[trainerData["TypeID"]]
                         name = trainerData["NameLabel"]
                         fullName = getTrainerNameFromTypes(name, type)
-                        changelogWrite.write(f"{fullName} ID{trainerEdited[idKey]}\n")
+                        changelogWrite.write(f"{fullName} ID{i}\n")
                     
                     else:
-                        changelogWrite.write(f"{getTrainerName(trainerEdited[idKey])} "f"ID{trainerEdited[idKey]}: \n")
+                        changelogWrite.write(f"{getTrainerName(trainerEdited[i])} ID{trainerEdited[i]}: \n")
                     
                     editedTrainerClass = showdown.Trainer(trainerEdited)
                     
-                    changelogWrite.write("ADDED: \n")
+                    # changelogWrite.write("ADDED: \n")
                     changelogWrite.write(editedTrainerClass.getShowdown())
                 
             else:

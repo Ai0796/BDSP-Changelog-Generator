@@ -33,9 +33,6 @@ class Trainer:
             
         return pokeString
         
-        
-        
-        
 class Pokemon:
     
     monsnoKey = "MonsNo"
